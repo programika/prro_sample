@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+package com.programika.rro.ws.chk;
+
+
+message Check {
+    string rro_fn = 1;
+    int64 date_time = 2;
+    bytes check_sign = 3;
+    int32 local_number = 4;
+    enum Type {
+        UNKNOWN = 0;
+        CHK = 1;
+        ZREPORT = 2;
+        SERVICECHK = 3;
+    }
+    Type check_type = 5;
+    string id_offline = 6;
+    string id_cancel = 7;
+
+}
+
+message CheckRequest {
+    bytes rro_fn_sign = 3;
+}
+
+message CheckResponse {
+    string id = 1;
+    enum Status {
+        UNKNOWN = 0;
+        OK = 1;
+        ERROR_VEREFY = -1;
+        ERROR_CHECK = -2;
+        ERROR_SAVE = -3;
+        ERROR_UNKNOWN = -4;
+        ERROR_TYPE = -5;
+        ERROR_NOT_PREV_ZREPORT = -6;
+        ERROR_XML = -7;
+        ERROR_XML_DATE = -8;
+        ERROR_XML_CHK = -9;
+        ERROR_XML_ZREPORT = -10;
+        ERROR_OFFLINE_168 = -11;
+        ERROR_BAD_HASH_PREV = -12;
+        ERROR_NOT_REGISTERED_RRO = -13;
+        ERROR_NOT_REGISTERED_SIGNER = -14;
+        ERROR_NOT_OPEN_SHIFT = -15;
+        ERROR_OFFLINE_ID = -16;
+    }
+    Status status = 2;
+    bytes id_sign = 3;
+    bytes data_sign = 4;
+    string error_message = 5;
+}
+
+
+service ChkIncomeService {
+    rpc sendChk (Check) returns (CheckResponse);
+    rpc lastChk (CheckRequest) returns (CheckResponse);
+    rpc ping (Check) returns (CheckResponse);
+}
+
+
