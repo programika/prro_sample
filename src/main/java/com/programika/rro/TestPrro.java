@@ -24,9 +24,9 @@ import java.util.List;
 @Slf4j
 public class TestPrro extends javax.swing.JFrame {
 
-    String url = "cabinet.sfs.gov.ua:8443";
-    //    String url = "127.0.0.1:6501";
-    //    Boolean ssl = false;
+    String url = "cabinet.tax.gov.ua:9443";
+    //        String url = "127.0.0.1:6501";
+//        Boolean ssl = false;
     Boolean ssl = true;
     String lastPatch = "";
     Sender sender = null;
@@ -484,7 +484,7 @@ public class TestPrro extends javax.swing.JFrame {
             }
 
             CheckResponse answer = sender.sendChk(check);
-            nlog(" return " + answer.getStatus() + " " + answer.getId());
+            nlog(" return " + answer.getStatus() + "  " + answer.getErrorMessage() + " " + answer.getId());
             if (answer.getStatusValue() == 1) {
                 byte[] hash = digest.digest(d);
                 String hashStr = Utils.bytesToHex(hash);
